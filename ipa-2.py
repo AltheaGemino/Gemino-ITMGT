@@ -37,7 +37,16 @@ def shift_letter(letter, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    
+    if letter == " ": #if blank return blank
+        return letter
+    
+    letter_position = letters.index(letter) #position of input letter in letters array
+    if letter_position + shift >= len(letters): # if shift overflows length of letters array 
+        return letters[(letter_position + shift) % len(letters)] # modulo operator to wrap back to 0 after 25
+    else:
+        return letters[letter_position + shift]
 
 def caesar_cipher(message, shift):
     '''Caesar Cipher.
@@ -59,7 +68,18 @@ def caesar_cipher(message, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    caesar = "" # empty string
+    for char in message:
+        if char == " ": # checks if char is a space character
+            caesar += " " # if only space char then it remains as is
+        elif char.isupper(): #checks if char is uppercase
+            ascii_code = ord(char) # ord function returns the unicode of char
+            shifted_code = (ascii_code - 65 + shift) % 26 + 65 
+            #ascii_code - 65 bc 65 is 'A' then the + shift converts it to 0-25 of A-Z; modular to 26 to maintain it within that 0-25 range; + 65 to convert it back to ascii code 
+            caesar += chr(shifted_code) # convert the ascii code to characters
+        else:
+            caesar += char # Ignore non-alphabetic characters
+    return caesar
 
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter.
@@ -89,7 +109,18 @@ def shift_by_letter(letter, letter_shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    
+    if letter == " ": 
+        return letter
+    
+    shift = letters.index(letter_shift) #get shift based on letter
+
+    letter_position = letters.index(letter) #position of input letter in letters array
+    if letter_position + shift >= len(letters): # if shift overflows length of letters array 
+        return letters[(letter_position + shift) % len(letters)] # modulo operator to wrap back to 0 after 25
+    else:
+        return letters[letter_position + shift]
 
 def vigenere_cipher(message, key):
     '''Vigenere Cipher.
@@ -122,7 +153,14 @@ def vigenere_cipher(message, key):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    key = list(key)
+    if len(message) == len(key):
+        return(key)
+    else:
+        for i in range(len(message) -
+                       len(key)):
+            key.append(key[i % len(key)])
+    return("" . join(key))
 
 def scytale_cipher(message, shift):
     '''Scytale Cipher.
@@ -176,7 +214,12 @@ def scytale_cipher(message, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    while len(message) % shift != 0:
+        message += "_"
+    scytale = ''
+    for x in range(len(message)):
+        scytale += message[(x // shift) + (len(message) // shift) * (x % shift)]
+    return scytale
 
 def scytale_decipher(message, shift):
     '''Scytale De-cipher.
@@ -205,4 +248,8 @@ def scytale_decipher(message, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    decoded = ''
+    for x in range(len(message)):
+        decoded += message[x*shift - ((len(message) - 1) * (x // (len(message) // shift)))]
+    
+    return decoded
