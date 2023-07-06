@@ -96,7 +96,7 @@ def interest(principal, rate, periods):
     int
         the final value of the investment
     '''
-    interest = rate * periods
+    interest = principal* rate * periods
     final_value= principal + interest
     return int(final_value)
 
