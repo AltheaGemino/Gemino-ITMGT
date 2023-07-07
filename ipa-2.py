@@ -153,14 +153,13 @@ def vigenere_cipher(message, key):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    key = list(key)
-    if len(message) == len(key):
-        return(key)
-    else:
-        for i in range(len(message) -
-                       len(key)):
-            key.append(key[i % len(key)])
-    return("" . join(key))
+    while len(message) != len(key):
+        key += key
+    
+    vigenere = ''
+    for x in range(len(message)):
+        vigenere += shift_by_letter(message[x],key[x])
+    return vigenere
 
 def scytale_cipher(message, shift):
     '''Scytale Cipher.
