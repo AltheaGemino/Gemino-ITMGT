@@ -41,7 +41,14 @@ def relationship_status(from_member, to_member, social_graph):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    if to_member in social_graph[from_member]["following"] and from_member in social_graph[to_member]["following"]:
+        return "Friends"
+    elif to_member in social_graph[from_member]["following"]:
+        return "Follower"
+    elif from_member in social_graph[to_member]["following"]:
+        return "Followed by"
+    else:
+        return "No relationship"
 
 
 def tic_tac_toe(board):
@@ -70,7 +77,29 @@ def tic_tac_toe(board):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    rows = len(board)
+    cols = len(board[0])
+
+    # Check rows
+    for row in board: # For every row in board
+        #Check if every symbol in the row is the same
+        if all(symbol == row[0] for symbol in row) and row[0] != '':
+            #If all symbols the same, return symbol (symbol is the winner)
+            return row[0]
+
+    # Check columns
+    for col in range(cols):
+        if all(board[row][col] == board[0][col] for row in range(rows)) and board[0][col] != '':
+            return board[0][col]
+
+    # Check diagonals
+    if all(board[i][i] == board[0][0] for i in range(rows)) and board[0][0] != '':
+        return board[0][0]
+
+    if all(board[i][cols - i - 1] == board[0][cols - 1] for i in range(rows)) and board[0][cols - 1] != '':
+        return board[0][cols - 1]
+
+    return "NO WINNER"
 
 def eta(first_stop, second_stop, route_map):
     '''ETA.
@@ -103,4 +132,28 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    travelling = False
+    travel_time = 0
+    
+    if first_stop == second_stop:
+        return 0
+    
+    for route in route_map: #Iterate through possible routes
+        if route[0] == first_stop: # Determine if start of leg is first stop
+            travelling = True # Start the journey
+            
+        if travelling == True: # If journey has started, add travel time of the leg to ETA
+            travel_time += route_map.get(route).get('travel_time_mins') 
+            
+            if route[1] == second_stop: # If end of leg is second stop end the journey
+                travelling = False
+                break
+            
+    # Edge case: If second stop is before first stop loop through routes again
+    if travelling == True:
+        for route in route_map:
+            travel_time += route_map.get(route).get('travel_time_mins')
+            if route[1] == second_stop:
+                break
+            
+    return travel_time
