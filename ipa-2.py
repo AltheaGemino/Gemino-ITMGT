@@ -153,13 +153,25 @@ def vigenere_cipher(message, key):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    for i in range(len(message)-len(key)):
-         key += key[i%3]
+    import string
+    alphabet = string.ascii_uppercase
+    shifted_message = ""
     
-    vigenere = ''
-    for x in range(len(message)):
-        vigenere += shift_by_letter(message[x],key[x])
-    return vigenere
+    while len(message) > len(key):
+        key += key
+    key = key[:len(message)]
+    
+    for i, char in enumerate(message):
+        if char == " ":
+            shifted_message += " "
+        else:
+            char = char.upper()
+            shift = alphabet.index(key[i])
+            shifted_index = (alphabet.index(char) + shift) % len(alphabet)
+            shifted_char = alphabet[shifted_index]
+            shifted_message += shifted_char
+            
+    return shifted_message
 
 def scytale_cipher(message, shift):
     '''Scytale Cipher.
